@@ -1,4 +1,4 @@
-from lib.line import Line
+from util.line import Line
 
 file = open('assets/problem1.txt', 'r')
 steps = file.read().split(',')
