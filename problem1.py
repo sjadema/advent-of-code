@@ -1,38 +1,48 @@
+from lib.line import Line
+
 file = open('assets/problem1.txt', 'r')
-directions = file.read().split(',')
-positions = [('n', (0, 0))]
+steps = file.read().split(',')
 
-def calculate_position(position, direction, length):
-    orientations = ['n', 'e', 's', 'w']
-    current_orientation = orientations.index(position[0])
+directions = (
+    (0, 1),   # N
+    (1, 0),   # E
+    (0, -1),  # S
+    (-1, 0),  # W
+)
 
-    index = (current_orientation - 1 if direction == 'L' else current_orientation + 1) % len(orientations)
+# Create starting direction (N) and position (0, 0)
+positions = [(0, (0, 0))]
 
-    x = position[1][0]
-    y = position[1][1]
+for step in steps:
+    step = step.strip()
+    turn = step[0:1]
+    length = int(step[1:])
 
-    if index == 0:
-        y += length
-    elif index == 1:
-        x += length
-    elif index == 2:
-        y -= length
-    else:
-        x -= length
+    position = positions[-1]
+    direction = position[0]
+    coordinates = position[1]
 
-    return (orientations[index], (x, y))
-
-
-for direction in directions:
-    direction = direction.strip()
-    length = direction[1:]
-    direction = direction[0:1]
-
-    position = calculate_position(positions[-1], direction, int(length))
-
-    positions.append(position)
+    # Calculate new direction and create a new position
+    index = (direction - 1 if turn == 'L' else direction + 1) % len(directions)
+    positions.append(
+        (index, (coordinates[0] + directions[index][0] * length, coordinates[1] + directions[index][1] * length))
+    )
 
 coordinates = positions[-1][1]
+print('Distance single is: ', abs(coordinates[0]) + abs(coordinates[1]))
 
-print('Distance is: ', abs(coordinates[0]) + abs(coordinates[1]))
+lines = []
+for index in range(1, len(positions)):
+    lines.append(Line(positions[index - 1][1], positions[index][1]))
+
+for index in range(0, len(lines)):
+    for compare in range(index + 1, len(lines)):
+        # Skip touching lines
+        if compare - index == 1:
+            continue
+
+        coordinates = lines[compare].has_intersection(lines[index])
+        if coordinates is not None:
+            print('Distance visited is: ', int(abs(coordinates[0]) + abs(coordinates[1])))
+            exit(0)
 
