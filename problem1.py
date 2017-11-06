@@ -18,9 +18,8 @@ for step in steps:
     turn = step[0:1]
     length = int(step[1:])
 
-    position = positions[-1]
-    direction = position[0]
-    coordinates = position[1]
+    direction = positions[-1][0]
+    coordinates = positions[-1][1]
 
     # Calculate new direction and create a new position
     index = (direction - 1 if turn == 'L' else direction + 1) % len(directions)
