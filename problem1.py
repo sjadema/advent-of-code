@@ -36,11 +36,8 @@ for index in range(1, len(positions)):
     lines.append(Line(positions[index - 1][1], positions[index][1]))
 
 for index in range(0, len(lines)):
-    for compare in range(index + 1, len(lines)):
-        # Skip touching lines
-        if compare - index == 1:
-            continue
-
+    # Skip touching line, start at index + 2
+    for compare in range(index + 2, len(lines)):
         coordinates = lines[compare].has_intersection(lines[index])
         if coordinates is not None:
             print('Distance visited is: ', int(abs(coordinates[0]) + abs(coordinates[1])))
