@@ -47,6 +47,6 @@ for code in codes:
             index = alphabet.index(char)
             word += alphabet[(index + code['sector_id']) % len(alphabet)]
 
-        if word == 'northpole':
+        if 'northpole' == word:
             print('Sector ID sleigh: ', code['sector_id'])
             exit()
