@@ -9,16 +9,14 @@ neighbouring_chars = parsed_chars[1:] + parsed_chars[0:1]
 
 total = 0
 for i in range(0, len(neighbouring_chars) - 1):
-    print(neighbouring_chars[i] + neighbouring_chars[i + 1])
-
     if neighbouring_chars[i] == neighbouring_chars[i + 1]:
         total += int(neighbouring_chars[i])
 
-print('Total part 1: ', total)
+print('Total neighbouring: ', total)
 
 total = 0
-for i in range(0, int(len(parsed_chars) / 2)):
+for i in range(0, len(parsed_chars)):
     if parsed_chars[i] == parsed_chars[int(len(parsed_chars) / 2 + i) % len(parsed_chars)]:
-        total += int(parsed_chars[i]) * 2
+        total += int(parsed_chars[i])
 
-print('Total part 2: ', total)
+print('Total halfway: ', total)
