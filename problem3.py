@@ -59,6 +59,7 @@ possibilities = (
 maximum_value = sorted(coordinates.values())[-1]
 steps = dimension ** 2 - (dimension - 2) ** 2
 step = 0
+
 while maximum_value <= target_square:
     x = current_position[0]
     y = current_position[1]
