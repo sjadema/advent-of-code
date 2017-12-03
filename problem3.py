@@ -39,7 +39,6 @@ print('Distance: ', distance)
 dimension = 3
 radius = int((dimension - 1) / 2)
 
-current_square = (dimension - 2) ** 2 + 1
 current_position = (radius, radius * -1)
 
 coordinates = {
