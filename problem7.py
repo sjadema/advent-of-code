@@ -63,6 +63,7 @@ def get_imbalanced_child(node: 'Node'):
 
     value = [(name, occurrences[name]) for name in sorted(occurrences, key=occurrences.get)][0][0]
     name = list(weights.keys())[list(weights.values()).index(value)]
+
     return get_imbalanced_child(tree[name])
 
 
