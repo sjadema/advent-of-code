@@ -1,3 +1,6 @@
+import operator
+from functools import reduce
+
 with open('assets/problem10.txt', 'r') as file:
     lengths = [int(length) for length in file.read().strip().split(',')]
 
@@ -29,31 +32,26 @@ asciis += hard_coded
 
 elements = list(range(256))
 current_position = skip_size = 0
-for i in range(0, 64):
-    for j in range(len(lengths)):
-        length = lengths[j]
+for i in range(64):
+    for j in range(len(asciis)):
+        ascii = asciis[j]
 
         # Todo: Do this in 1 loop?
         sub_elements = []
-        for k in range(current_position, current_position + length):
+        for k in range(current_position, current_position + ascii):
             sub_elements.append(elements[k % len(elements)])
 
         twisted = sub_elements[::-1]
         for k in range(len(twisted)):
             elements[(k + current_position) % len(elements)] = twisted[k]
 
-        current_position += (length + skip_size) % len(elements)
+        current_position += (ascii + skip_size) % len(elements)
         skip_size += 1
 
-blocks = []
+xored = []
 for i in range(0, len(elements), 16):
-    block = elements[i:i+16]
+    element = reduce(operator.xor, elements[i:i+16])
+    xored.append(element)
 
-
-    blocks.append(block)
-
-print(blocks)
-
-
-
-print(elements, len(elements))
+hashed = ''.join(["{:02x}".format(element) for element in xored])
+print('Hash (xored): ', hashed)
