@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 
-from util.node import Node
+from util.treenode import TreeNode
 
 with open('assets/problem7.txt', 'r') as file:
     rows = [row.strip() for row in file.readlines()]
@@ -9,7 +9,7 @@ with open('assets/problem7.txt', 'r') as file:
 tree = {}
 for row in rows:
     match = re.search('^(?P<name>[^\s]+)\s?\((?P<weight>[\d]+)\)', row)
-    node = Node(match.group('name'), int(match.group('weight')))
+    node = TreeNode(match.group('name'), int(match.group('weight')))
     tree[node.get_name()] = node
 
 for row in rows:
@@ -24,7 +24,7 @@ source = next(filter(lambda x: x.get_parent() is None, tree.values()))
 print('Source: ', source.get_name())
 
 
-def get_imbalanced_child(node: 'Node'):
+def get_imbalanced_child(node: 'TreeNode'):
     weights = {}
     for child in node.get_children():
         weights[child.get_name()] = child.get_weight(True)
