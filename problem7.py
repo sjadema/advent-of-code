@@ -20,7 +20,7 @@ for row in rows:
         for child in children:
             node.add_child(tree[child])
 
-source = filter(lambda x: x.get_parent() is None, tree.values()).__next__()
+source = next(filter(lambda x: x.get_parent() is None, tree.values()))
 print('Source: ', source.get_name())
 
 
