@@ -17,20 +17,8 @@ class GraphNode:
             self.nodes[node.get_name()] = node
             node.add_node(self)
 
-    def get_nodes(self, recursive: bool = False) -> List['GraphNode']:
-        if not recursive:
-            return list(self.nodes.values())
-
-        self.visited.append(self)
-        for node in self.get_nodes():
-            if node not in self.visited:
-                node.get_nodes(recursive)
-
-        # nodes = deepcopy(self.visited)
-        print(self.visited)
-        self.visited = []
-
-        return nodes
+    def get_nodes(self) -> List['GraphNode']:
+        return list(self.nodes.values())
 
     def count_nodes(self, recursive: bool = False):
         if not recursive:

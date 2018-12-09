@@ -40,9 +40,9 @@ for definition in definitions:
 print('Total programs in group "0": ', graph['0'].count_nodes(True))
 
 
-# groups = {}
-# for node in graph.values():
-#     groups[node.get_name()] =
+groups = {}
+for node in graph.values():
+    groups[node.get_name()] =
 
 
 # for node in graph.values():
