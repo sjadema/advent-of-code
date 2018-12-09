@@ -16,8 +16,32 @@ for line in lines:
 
 print('Checksum: {}'.format(twos * threes))
 
+corrects = []
 for i in range(len(lines)):
     for j in range(i + 1, len(lines)):
-        print(lines[i], lines[j])
-        exit()
+        chars_first = list(lines[i])
+        chars_second = list(lines[j])
 
+        difference = 0
+        for k in range(len(chars_first)):
+            if difference > 1:
+                break
+
+            if chars_first[k] != chars_second[k]:
+                difference += 1
+
+        if difference == 1:
+            corrects.append(lines[i])
+            corrects.append(lines[j])
+
+correct = []
+for i in range(len(corrects)):
+    for j in range(i + 1, len(corrects)):
+        chars_first = list(corrects[i])
+        chars_second = list(corrects[j])
+
+        for k in range(len(chars_first)):
+            if chars_first[k] == chars_second[k]:
+                correct.append(chars_first[k])
+
+print('Correct: {}'.format(''.join(correct)))
