@@ -39,9 +39,13 @@ print('Amount of collisions: {}'.format(len(collisions)))
 for operation in operations:
     collision = 0
     for i in range(operation['left'], operation['left'] + operation['width']):
+        if collision < 0:
+            break
+
         for j in range(operation['top'], operation['top'] + operation['height']):
             if (i, j) in collisions:
                 collision += 1
+                break
 
     if collision == 0:
         print('Free fabric has ID: {}'.format(operation['id']))

@@ -17,9 +17,7 @@ def react(chain: List[str]):
 
         if first.lower() == second.lower() and first != second:
             chain = chain[0:i] + chain[i + 2:]
-            i -= 1
-            if i < 0:
-                i = 0
+            i = max(0, i - 1)
         else:
             i += 1
 
