@@ -11,7 +11,7 @@ instructions[1] = 12
 instructions[2] = 2
 
 program = IntCode(instructions)
-print('After executing: {}'.format(program.run()))
+print('After executing: {}.'.format(program.run()))
 
 try:
     answer = 19690720
@@ -26,4 +26,4 @@ try:
 
 except StopIteration as e:
     args = e.args
-    print('After executing: {}'.format(100 * args[0] + args[1]))
+    print('After executing: {}.'.format(100 * args[0] + args[1]))

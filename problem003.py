@@ -43,7 +43,7 @@ intersection.remove((0, 0))
 
 manhattan = [abs(coordinate[0]) + abs(coordinate[1]) for coordinate in intersection]
 
-print('Minimum Manhattan distance: {}'.format(min(manhattan)))
+print('Minimum Manhattan distance is {}.'.format(min(manhattan)))
 
 steps = []
 for coordinate in intersection:
@@ -57,4 +57,4 @@ for coordinate in intersection:
 
     steps.append(i_1 + i_2)
 
-print('Minimum number of combined steps: {}.'.format(min(steps)))
+print('Minimum number of combined steps is {}.'.format(min(steps)))
