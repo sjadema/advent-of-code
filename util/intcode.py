@@ -6,7 +6,7 @@ class IntCode:
     POINTERS = {
         1: 4,
         2: 4,
-        99: 1
+        99: 1,
     }
 
     OPERATORS = {
