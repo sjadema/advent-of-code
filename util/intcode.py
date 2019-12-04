@@ -3,7 +3,7 @@ from typing import List
 
 
 class IntCode:
-    INSTRUCTIONS = {
+    POINTERS = {
         1: 4,
         2: 4,
         99: 1
@@ -14,7 +14,7 @@ class IntCode:
         2: getattr(operator, 'mul'),
     }
 
-    def __init__(self, instructions: List[int]):
+    def __init__(self, instructions: List[int]) -> None:
         self.instructions = instructions.copy()
         self.pointer = 0
 
@@ -27,18 +27,13 @@ class IntCode:
             if 99 == op_code:
                 break
 
+            operation = self.OPERATORS[op_code]
             left = self.instructions[self.pointer + 1]
             right = self.instructions[(self.pointer + 2)]
             target = self.instructions[self.pointer + 3]
 
-            self.instructions[target] = self.__execute(op_code, self.instructions[left], self.instructions[right])
+            self.instructions[target] = operation(self.instructions[left], self.instructions[right])
 
-            self.pointer += self.INSTRUCTIONS[op_code]
+            self.pointer += self.POINTERS[op_code]
 
         return self.instructions[0]
-
-    def __execute(self, op_code: int, left: int, right: int) -> int:
-        operation = self.OPERATORS[op_code]
-
-        return operation(left, right)
-
