@@ -15,7 +15,7 @@ for possibility in range(lower, upper + 1):
         continue
 
     for i in range(len(base) - 1):
-        double = set(base[i:i+2])
+        double = set(base[i:i + 2])
         if len(double) == 1:
             answers.add(possibility)
             break
