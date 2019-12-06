@@ -8,6 +8,10 @@ class IntCode:
         2: 4,
         3: 2,
         4: 2,
+        5: 3,
+        6: 3,
+        7: 4,
+        8: 4,
         99: 1,
     }
 
@@ -16,6 +20,8 @@ class IntCode:
         self.inputs = inputs.copy()[::-1] if inputs is not None else []
 
         self.__running = False
+        self.__increase_pointer = True
+
         self.pointer = 0
         self.output = ''
 
@@ -41,7 +47,10 @@ class IntCode:
 
             operation(*tuple(args))
 
-            self.pointer += self.OP_CODE_LENGTHS[op_code]
+            if self.__increase_pointer:
+                self.pointer += self.OP_CODE_LENGTHS[op_code]
+
+            self.__increase_pointer = True
 
         return self
 
@@ -79,6 +88,10 @@ class IntCode:
             2: self.__mul,
             3: self.__input,
             4: self.__output,
+            5: self.__if_true,
+            6: self.__if_false,
+            7: self.__less_than,
+            8: self.__equals,
             99: self.__terminate,
         }
 
@@ -98,6 +111,22 @@ class IntCode:
 
     def __output(self, value: int) -> None:
         self.output += str(value)
+
+    def __if_true(self, value: int, position: int):
+        if 0 != value:
+            self.pointer = position
+            self.__increase_pointer = False
+
+    def __if_false(self, value: int, position: int):
+        if 0 == value:
+            self.pointer = position
+            self.__increase_pointer = False
+
+    def __less_than(self, left: int, right: int, address: int):
+        self.instructions[address] = 1 if left < right else 0
+
+    def __equals(self, left: int, right: int, address: int):
+        self.instructions[address] = 1 if left == right else 0
 
     def __terminate(self) -> None:
         self.__running = False

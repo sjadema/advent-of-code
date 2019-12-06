@@ -10,4 +10,9 @@ for line in lines:
 inputs = [1]
 
 program = IntCode(instructions, inputs)
-print('Diagnostic code after running: {}.'.format(program.run().get_output().replace('0', '')))
+print('Diagnostic code for airco: {}.'.format(program.run().get_output().replace('0', '')))
+
+inputs = [5]
+
+program = IntCode(instructions, inputs)
+print('Diagnostic code for thermal radiators: {}.'.format(program.run().get_output()))
