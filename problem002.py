@@ -11,7 +11,7 @@ instructions[1] = 12
 instructions[2] = 2
 
 program = IntCode(instructions)
-print('After executing: {}.'.format(program.run()))
+print('After executing: {}.'.format(program.run().result(0)))
 
 try:
     answer = 19690720
@@ -21,7 +21,7 @@ try:
             instructions[2] = verb
 
             program = IntCode(instructions)
-            if answer == program.run():
+            if answer == program.run().result(0):
                 raise StopIteration(noun, verb)
 
 except StopIteration as e:
