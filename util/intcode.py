@@ -13,7 +13,7 @@ class IntCode:
 
     def __init__(self, instructions: List[int], inputs: List[int] = None) -> None:
         self.instructions = instructions.copy()
-        self.inputs = inputs[::-1] if inputs is not None else []
+        self.inputs = inputs.copy()[::-1] if inputs is not None else []
 
         self.__running = False
         self.pointer = 0
@@ -25,7 +25,7 @@ class IntCode:
         while self.__running:
             try:
                 instruction = self.instructions[self.pointer]
-            except KeyError:
+            except IndexError:
                 raise RuntimeError('Invalid instructions.')
 
             # Determine op code & operation
@@ -50,9 +50,16 @@ class IntCode:
 
     @staticmethod
     def __normalize_instruction(instruction: int) -> str:
-        instruction = f"{instruction:04}"
+        instructions = {
+            3: '00103',
+        }
 
-        return '1' + instruction
+        try:
+            predefined = f"{instruction:05}"
+
+            return instructions[int(predefined[-2:])]
+        except KeyError:
+            return '1' + f"{instruction:04}"
 
     @staticmethod
     def __get_op_code(instruction: int) -> int:
@@ -90,10 +97,10 @@ class IntCode:
         self.instructions[address] = self.inputs.pop()
 
     def __output(self, value: int) -> None:
-        self.output += value
+        self.output += str(value)
 
     def __terminate(self) -> None:
         self.__running = False
 
-    def output(self):
+    def get_output(self) -> str:
         return self.output
