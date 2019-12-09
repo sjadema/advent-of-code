@@ -12,7 +12,7 @@ class IntCode:
         6: [0, 0],
         7: [0, 0, 1],
         8: [0, 0, 1],
-        9: [1],
+        9: [0],
         99: [],
     }
 
@@ -33,7 +33,7 @@ class IntCode:
 
         while self.__running:
             try:
-                instruction = self.instructions[self.pointer]
+                instruction = self.__normalize_instruction(self.instructions[self.pointer])
             except IndexError:
                 raise RuntimeError('Invalid instructions.')
 
@@ -54,7 +54,7 @@ class IntCode:
             operation(*tuple(args))
 
             if self.__increase_pointer:
-                self.pointer += parameter_length + 1
+                self.pointer += (parameter_length + 1)
 
             self.__increase_pointer = True
 
@@ -70,30 +70,26 @@ class IntCode:
         op_code = int(op_str)
         defaults = IntCode.OP_CODE_DEFAULTS[op_code]
 
-        parameters = str(instruction)[::-1][2:]
-        defined = list(parameters) if '' != parameters else []
+        modes = str(instruction)[::-1][2:]
+        defined = list(modes) if '' != modes else []
 
-        parameters = []
+        modes = []
         for i in range(len(defaults)):
             try:
-                parameter = defined[i]
+                mode = defined[i]
             except IndexError:
-                parameter = defaults[i]
+                mode = defaults[i]
 
-            parameters.append(parameter)
+            modes.append(mode)
 
-        return ''.join([str(p) for p in parameters[::-1]]) + op_str
+        return ''.join([str(m) for m in modes[::-1]]) + op_str
 
     @staticmethod
-    def __get_op_code(instruction: int) -> int:
-        instruction = IntCode.__normalize_instruction(instruction)
-
+    def __get_op_code(instruction: str) -> int:
         return int(instruction[-2:])
 
     @staticmethod
-    def __get_modes(instruction: int) -> List[int]:
-        instruction = IntCode.__normalize_instruction(instruction)
-
+    def __get_modes(instruction: str) -> List[int]:
         return [int(mode) for mode in instruction[0:-2]]
 
     def __get_operation(self, op_code: int) -> Callable:
@@ -112,7 +108,7 @@ class IntCode:
 
         return operations[op_code]
 
-    def __get_value(self, mode: int, address: int):
+    def __get_value(self, mode: int, address: int) -> int:
         if 1 == mode:
             return address
 
@@ -121,13 +117,10 @@ class IntCode:
 
         return self.instructions[self.__access_memory(address)]
 
-    def __access_memory(self, address: int):
+    def __access_memory(self, address: int) -> int:
         if len(self.instructions) <= address:
-            # print(address, len(self.instructions), self.pointer)
-
             expand_by = [0] * (address - len(self.instructions) + 1)
             self.instructions += expand_by
-            # print(len(self.instructions))
 
         return address
 
@@ -143,21 +136,21 @@ class IntCode:
     def __output(self, value: int) -> None:
         self.output += str(value)
 
-    def __if_true(self, value: int, position: int):
+    def __if_true(self, value: int, position: int) -> None:
         if 0 != value:
             self.pointer = position
             self.__increase_pointer = False
 
-    def __if_false(self, value: int, position: int):
+    def __if_false(self, value: int, position: int) -> None:
         if 0 == value:
             self.pointer = position
             self.__increase_pointer = False
 
-    def __less_than(self, left: int, right: int, address: int):
-        self.instructions[self.__access_memory(address)] = 1 if left < right else 0
+    def __less_than(self, left: int, right: int, address: int) -> None:
+        self.instructions[self.__access_memory(address)] = int(left < right)
 
-    def __equals(self, left: int, right: int, address: int):
-        self.instructions[self.__access_memory(address)] = 1 if left == right else 0
+    def __equals(self, left: int, right: int, address: int) -> None:
+        self.instructions[self.__access_memory(address)] = int(left == right)
 
     def __offset_base(self, value: int) -> None:
         self.__base += value
