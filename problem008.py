@@ -33,7 +33,7 @@ print('Checksum: {}.'.format(occurrences['1'] * occurrences['2']))
 layer_range = range(99, -1, -1)
 data_range = range(6 * 25)
 
-restored = [0] * (6 * 25)
+restored = ['0'] * (6 * 25)
 for index in data_range:
     for layer in layer_range:
         data = layers[layer]
