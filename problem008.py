@@ -29,3 +29,18 @@ for char in shortest:
     occurrences[char] += 1
 
 print('Checksum: {}.'.format(occurrences['1'] * occurrences['2']))
+
+layer_range = range(99, -1, -1)
+data_range = range(6 * 25)
+
+restored = [0] * (6 * 25)
+for index in data_range:
+    for layer in layer_range:
+        data = layers[layer]
+        pixel = data[index]
+
+        if '2' != pixel:
+            restored[index] = pixel
+
+for i in range(0, len(restored), 25):
+    print(''.join([str(p).replace('0', ' ').replace('1', 'x') for p in restored[i:i+25]]))
