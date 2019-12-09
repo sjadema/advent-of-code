@@ -131,5 +131,5 @@ class IntCode:
     def __terminate(self) -> None:
         self.__running = False
 
-    def get_output(self) -> str:
-        return self.output
+    def get_output(self) -> int:
+        return int(self.output)
