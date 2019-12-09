@@ -18,13 +18,26 @@ for one in range(5):
                         continue
 
                     first = IntCode(instructions, [one, 0])
-                    second = IntCode(instructions, [two, first.run().get_output()])
-                    third = IntCode(instructions, [three, second.run().get_output()])
-                    fourth = IntCode(instructions, [four, third.run().get_output()])
-                    fifth = IntCode(instructions, [five, fourth.run().get_output()])
+                    second = IntCode(instructions, [two, int(first.run().get_output())])
+                    third = IntCode(instructions, [three, int(second.run().get_output())])
+                    fourth = IntCode(instructions, [four, int(third.run().get_output())])
+                    fifth = IntCode(instructions, [five, int(fourth.run().get_output())])
 
                     current = fifth.run().get_output()
 
-                    maximum = max(maximum, current)
+                    maximum = max(maximum, int(current))
 
 print('Max thrust: {}.'.format(maximum))
+
+
+# maximum = 0
+# for five in range(5, 10):
+#     for six in range(5, 10):
+#         for seven in range(5, 10):
+#             for eight in range(5, 10):
+#                 for nine in range(5, 10):
+#                     check = [five, six, seven, eight, nine]
+#                     if len(set(check)) != len(check):
+#                         continue
+#
+#                     first = IntCode
