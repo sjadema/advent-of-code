@@ -14,7 +14,21 @@ orbiting = []
 for value in orbit_map.values():
     orbiting += value
 
-center = set(orbit_map.keys()).difference(set(orbiting))
+center = set(orbit_map.keys()).difference(set(orbiting)).pop()
+
+total_orbits = {}
 
 
-print(center)
+def determine_orbits(start: str, orbits: int = 0) -> None:
+    total_orbits[start] = orbits
+
+    masses = orbit_map[start]
+    for mass in masses:
+        if mass in orbit_map.keys():
+            determine_orbits(mass, orbits + 1)
+        else:
+            total_orbits[mass] = orbits + 1
+
+
+determine_orbits(center)
+print('Total number of orbits: {}.'.format(sum(total_orbits.values())))
