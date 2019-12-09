@@ -40,7 +40,7 @@ class Node:
         return [] == self.get_children()
 
     def depth(self) -> int:
-        return sum(1 for x in self.get_ancestors())
+        return sum(1 for _ in self.get_ancestors())
 
     def __repr__(self):
         return '{}. Children: {}.'.format(self.value, self.get_children())
