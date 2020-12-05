@@ -14,7 +14,6 @@ for line in lines:
 
 for i in range(0, len(passports)):
     passport = {}
-    sections = passports[i].strip().split(' ')
     for section in passports[i].strip().split(' '):
         parts = section.split(':')
         passport[parts[0]] = parts[1]
