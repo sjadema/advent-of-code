@@ -9,6 +9,11 @@ for line in lines:
     column = int(line[7:].replace('L', '0').replace('R', '1'), 2)
     boarding_passes.append([row, column])
 
-combined = [reduce(lambda r, c: r * 8 + c, boarding_pass) for boarding_pass in boarding_passes]
+seating_ids = [reduce(lambda r, c: r * 8 + c, boarding_pass) for boarding_pass in boarding_passes]
 
-print('Highest seating ID: {}.'.format(max(combined)))
+print('Highest seating ID: {}.'.format(max(seating_ids)))
+
+all_seating_ids = list(range(min(seating_ids), max(seating_ids) + 1))
+missing_seating_ids = set(all_seating_ids) - set(seating_ids)
+
+print('My seating ID: {}.'.format(missing_seating_ids.pop()))
