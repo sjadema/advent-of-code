@@ -1,30 +1,17 @@
-import math
-
 with open('assets/problem003.txt', 'r') as file:
     lines = [line for line in file.read().splitlines()]
 
 
 def calculate_trees(right: int, down: int) -> int:
-    fraction = right / down
-    multiplier = math.ceil(len(lines) * fraction / len(lines[0]))
-
-    grid = []
-    for y in range(0, len(lines)):
-        grid.append([])
-        for x in (lines[y] * multiplier):
-            grid[y].append(x)
-
-    x = y = 0
+    x = right
+    y = down
     trees = 0
-    while True:
+    while y < len(lines):
+        if '#' == lines[y][x % len(lines[y])]:
+            trees += 1
+
         y += down
         x += right
-
-        try:
-            if '#' == grid[y][x]:
-                trees += 1
-        except IndexError:
-            break
 
     return trees
 
@@ -39,8 +26,9 @@ steps = [
     [1, 2],
 ]
 
+total_trees = 1
 for i in range(0, len(steps)):
     step = steps[i]
-    steps[i] = calculate_trees(step[0], step[1])
+    total_trees *= calculate_trees(step[0], step[1])
 
-print('Total number of trees: {}.'.format(math.prod(steps)))
+print('Total number of trees: {}.'.format(total_trees))
