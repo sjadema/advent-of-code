@@ -39,8 +39,8 @@ for passport in passports:
     passport_id = passport['pid'] if 'pid' in passport else ''
 
     if 1920 <= birth_year <= 2002 and 2010 <= issue_year <= 2020 <= expiration_year <= 2030:
-        if eye_color in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'] and re.compile('^#[0-9a-f]{6}$').match(hair_color):
-            if 9 == len(passport_id):
+        if 9 == len(passport_id) and eye_color in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']:
+            if re.compile('^#[0-9a-f]{6}$').match(hair_color):
                 real_height = int(height.replace('cm', '').replace('in', ''))
                 if ('cm' in height and 150 <= real_height <= 193) or ('in' in height and 59 <= real_height <= 76):
                     valid_passports += 1
