@@ -1,15 +1,7 @@
-from functools import reduce
-
 with open('assets/problem005.txt', 'r') as file:
     lines = [line for line in file.read().splitlines()]
 
-boarding_passes = []
-for line in lines:
-    row = int(line[0:7].replace('F', '0').replace('B', '1'), 2)
-    column = int(line[7:].replace('L', '0').replace('R', '1'), 2)
-    boarding_passes.append([row, column])
-
-seating_ids = [reduce(lambda r, c: r * 8 + c, boarding_pass) for boarding_pass in boarding_passes]
+seating_ids = [int(''.join('1' if c in ['B', 'R'] else '0' for c in boarding_pass), 2) for boarding_pass in lines]
 
 print('Highest seating ID: {}.'.format(max(seating_ids)))
 
