@@ -17,10 +17,10 @@ anyone = []
 for group in groups:
     anyone.append(set(list(''.join(group))))
 
-print('Sum of all questions answered by anyone: {}.'.format(reduce(lambda total, group: total + len(group), anyone, 0)))
+print('Sum of questions answered by anyone: {}.'.format(reduce(lambda total, group: total + len(group), anyone, 0)))
 
 everyone = []
 for group in groups:
     everyone.append(set(group[0]).intersection(*[set(part) for part in group[1:]]))
 
-print('Sum of all questions answered by everyone: {}.'.format(reduce(lambda total, group: total + len(group), everyone, 0)))
+print('Sum of questions answered by everyone: {}.'.format(reduce(lambda total, group: total + len(group), everyone, 0)))
