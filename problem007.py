@@ -1,9 +1,11 @@
 import re
 
+from util.dependency import Vertex, Graph, Resolver
+
 with open('assets/problem007.txt', 'r') as file:
     lines = [line for line in file.read().splitlines()]
 
-bags = {}
+bag_configurations = {}
 for line in lines:
     bag = {}
     bag_configuration = re.match(r'^(.+?) bags contain (.+?)\.', line)
@@ -12,22 +14,23 @@ for line in lines:
         if None is not other_bag_configuration:
             bag[other_bag_configuration[2]] = int(other_bag_configuration[1])
 
-    bags[bag_configuration[1]] = bag
+    bag_configurations[bag_configuration[1]] = bag
 
-targets = ['shiny gold']
-possible_bags = set(bags.keys())
-while len(possible_bags):
-    for target in targets:
-        visited_bags = []
-        for bag in bags:
-            if bag in visited_bags:
-                continue
+bags = {}
+for name in bag_configurations:
+    bags[name] = Vertex(name)
 
-            visited_bags.append(bag)
-            for containing_bag in bags[bag]:
-                if containing_bag == target:
-                    targets.append(bag)
+    for dependency in bag_configurations[name]:
+        if dependency not in bags:
+            bags[dependency] = Vertex(dependency)
 
-        possible_bags = possible_bags.difference(set(visited_bags))
+for name in bag_configurations:
+    for dependency in bag_configurations[name]:
+        bags[name].add_edge(bags[dependency])
 
-print('Total number of bags containing at least a single bag: {}.'.format(len(set(targets)) - 1))
+graph = Graph.create(list(bags.values()))
+
+downstream_graph = Graph.filter(graph, [bags['shiny gold']], True)
+order = [vertex.name for vertex in Resolver(downstream_graph).resolve()]
+
+print('Total number of bags containing at least one shiny gold bag: {}.'.format(len(order) - 1))
