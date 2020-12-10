@@ -15,6 +15,7 @@ for line in lines:
     bags[bag_configuration[1]] = bag
 
 target = 'shiny gold'
+
 visit = [target]
 for name in visit:
     for bag in bags:
