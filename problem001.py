@@ -1,8 +1,6 @@
 with open('assets/problem001.txt', 'r') as file:
     depths = [int(line) for line in file.read().splitlines()]
 
-print(depths)
-
 increased = 0
 for i in range(1, len(depths)):
     if depths[i] > depths[i - 1]:
