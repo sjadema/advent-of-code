@@ -16,3 +16,4 @@ gamma = ''.join([str(i) for i in decimal_gamma])
 epsilon = ''.join([str(i) for i in decimal_epsilon])
 
 print(f"Power consumption: {int(gamma, 2) * int(epsilon, 2)}")
+
