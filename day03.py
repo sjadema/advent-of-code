@@ -9,8 +9,7 @@ for i in range(amount):
     for j in range(length):
         sequences[j].append(int(numbers[i][j]))
 
-summed_sequences = [sum(sequence) for sequence in sequences]
-decimal_gamma = [1 if sequence > amount / 2 else 0 for sequence in summed_sequences]
+decimal_gamma = [1 if sequence > amount / 2 else 0 for sequence in [sum(sequence) for sequence in sequences]]
 decimal_epsilon = [1 - i for i in decimal_gamma]
 gamma = ''.join([str(i) for i in decimal_gamma])
 epsilon = ''.join([str(i) for i in decimal_epsilon])
