@@ -1,4 +1,4 @@
-with open('assets/problem002.txt', 'r') as file:
+with open('assets/day02.txt', 'r') as file:
     legs = [line for line in file.read().splitlines()]
 
 x = y = aim = y_aim = 0

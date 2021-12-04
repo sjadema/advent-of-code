@@ -1,4 +1,4 @@
-with open('assets/problem001.txt', 'r') as file:
+with open('assets/day01.txt', 'r') as file:
     depths = [int(line) for line in file.read().splitlines()]
 
 increased = 0

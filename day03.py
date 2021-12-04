@@ -1,4 +1,4 @@
-with open('assets/problem003.txt', 'r') as file:
+with open('assets/day03.txt', 'r') as file:
     numbers = [line for line in file.read().splitlines()]
 
 amount = len(numbers)
