@@ -3,50 +3,54 @@ with open('assets/day04.txt', 'r') as file:
 
 drawn = [int(number) for number in lines[0].split(',')]
 
+row_length = 5
 puzzles = []
 for i in range(2, len(lines), 6):
     puzzle = {
         'puzzle': [],
         'h': [],
         'v': [],
-        'found_h': ['.'] * 25,
-        'found_v': ['.'] * 25,
+        'found_h': ['.'] * row_length ** 2,
+        'found_v': ['.'] * row_length ** 2,
+        'solved': False,
     }
 
-    for j in range(5):
+    for j in range(row_length):
         row = [int(number) for number in lines[i + j].split(' ') if len(number)]
         puzzle['puzzle'].append(row)
 
-    for j in range(5):
-        for k in range(5):
+    for j in range(row_length):
+        for k in range(row_length):
             puzzle['h'].append(puzzle['puzzle'][j][k])
             puzzle['v'].append(puzzle['puzzle'][k][j])
 
     puzzles.append(puzzle)
 
-try:
-    target = 'xxxxx'
-    for number in drawn:
-        for puzzle in puzzles:
-            if number in puzzle['h']:
-                h = puzzle['h'].index(number)
-                v = puzzle['v'].index(number)
+scores = []
+for number in drawn:
+    for puzzle in puzzles:
+        if puzzle['solved']:
+            continue
 
-                puzzle['found_h'][h] = 'x'
-                puzzle['found_v'][v] = 'x'
+        if number in puzzle['h']:
+            h = puzzle['h'].index(number)
+            v = puzzle['v'].index(number)
 
-            found_h = ''.join(puzzle['found_h'])
-            found_v = ''.join(puzzle['found_v'])
+            puzzle['found_h'][h] = 'x'
+            puzzle['found_v'][v] = 'x'
 
-            for direction, found in {'h': found_h, 'v': found_v}.items():
-                if target in found and 0 == found.index(target) % 5:
-                    unmarked = 0
-                    for i in range(len(found)):
-                        if '.' == found[i]:
-                            unmarked += puzzle[direction][i]
+        for direction, found in {'h': puzzle['found_h'], 'v': puzzle['found_v']}.items():
+            chunks = [''.join(found[j:j + row_length]) for j in range(0, len(found), row_length)]
 
-                    print(f"Puzzle score: {unmarked * number}")
-                    raise StopIteration
-except StopIteration:
-    pass
+            if 'xxxxx' in chunks:
+                unmarked = 0
+                for j in range(len(found)):
+                    if '.' == found[j]:
+                        unmarked += puzzle[direction][j]
 
+                scores.append(unmarked * number)
+                puzzle['solved'] = True
+                break
+
+print(f"First score: {scores[0]}")
+print(f"Last score: {scores[-1]}")
