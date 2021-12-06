@@ -1,5 +1,5 @@
 import operator
-from typing import List, Callable
+from typing import Callable
 
 with open('assets/day03.txt', 'r') as file:
     numbers = [line for line in file.read().splitlines()]
