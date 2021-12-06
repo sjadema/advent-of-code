@@ -12,6 +12,7 @@ for line in lines:
     ends.append((int(match.group(3)), int(match.group(4))))
 
 coordinates_hv = []
+coordinates_d = []
 for i in range(len(starts)):
     start = starts[i]
     end = ends[i]
@@ -26,6 +27,12 @@ for i in range(len(starts)):
         for x in x_range:
             for y in y_range:
                 coordinates_hv.append((x, y))
+    else:
+        for j in range(len(x_range)):
+            x = x_range[j]
+            y = y_range[j]
+
+            coordinates_d.append((x, y))
 
 collection = {}
 for coordinate in coordinates_hv:
@@ -36,3 +43,12 @@ for coordinate in coordinates_hv:
 
 overlapping = [coordinate for coordinate, value in collection.items() if 1 < value]
 print(f"Number of overlapping coordinates without diagonals: {len(overlapping)}")
+
+for coordinate in coordinates_d:
+    if coordinate not in collection:
+        collection[coordinate] = 0
+
+    collection[coordinate] += 1
+
+overlapping = [coordinate for coordinate, value in collection.items() if 1 < value]
+print(f"Number of overlapping coordinates with diagonals : {len(overlapping)}")
