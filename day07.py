@@ -26,9 +26,6 @@ constant_costs = _create_list()
 growing_costs = _create_list()
 for i in range(len(vessels)):
     for j in range(len(vessels)):
-        if i == j:
-            continue
-
         steps = abs(i - j)
         constant_costs[i] += constant_rates[steps] * vessels[j]
         growing_costs[i] += growing_rates[steps] * vessels[j]
