@@ -43,3 +43,14 @@ def fold(current_instructions: List[tuple]) -> List[tuple]:
 
 
 print(f"Number of dots after first fold: {len(fold(instructions[0:1]))}")
+code_coordinates = fold(instructions)
+max_x = max([x for x, y in code_coordinates])
+max_y = max([y for x, y in code_coordinates])
+
+print("Code after folding:")
+for y in range(max_y + 1):
+    line = ''
+    for x in range(max_x + 1):
+        line += '.' if (x, y) in code_coordinates else ' '
+
+    print(line)
