@@ -7,30 +7,40 @@ for line in lines[2:]:
     insertions[pair.strip()] = insert.strip()
 
 
-def react(steps: int) -> str:
+def react(steps: int) -> dict:
+    pairs = {}
+
+    def add_pair(pair: str, amount: int) -> None:
+        if pair not in pairs:
+            pairs[pair] = 0
+
+        pairs[pair] += amount
+
     polymer = lines[0]
+    for i in range(len(polymer) - 1):
+        add_pair(polymer[i:i + 2], 1)
+
     for _ in range(steps):
-        pairs = []
-        for i in range(len(polymer) - 1):
-            pairs.append(polymer[i:i + 2])
+        reacting_pairs = {pair: amount for pair, amount in pairs.items() if pair in insertions and 0 < amount}
+        for pair, amount in reacting_pairs.items():
+            add_pair(pair[0] + insertions[pair], amount)
+            add_pair(insertions[pair] + pair[1], amount)
+            pairs[pair] -= amount
 
-        last = polymer[-1]
+    occurrences = {}
+    for pair, amount in pairs.items():
+        for element in pair:
+            if element not in occurrences:
+                occurrences[element] = 0
 
-        polymer = ''
-        for pair in pairs:
-            if pair in insertions:
-                pair = pair[0] + insertions[pair]
+            occurrences[element] += amount
 
-            polymer += pair
+    for element, occurrence in occurrences.items():
+        occurrences[element] = occurrence // 2 + (1 if 1 == occurrence % 2 else 0)
 
-        polymer += last
-
-    return polymer
-
-
-def count_elements(polymer: str) -> dict:
-    return {e: polymer.count(e) for e in set(polymer)}
+    return occurrences
 
 
-collection = count_elements(react(10))
-print(f"10 steps polymer: {max(collection.values()) - min(collection.values())}")
+for steps in [10, 40]:
+    occurrences = react(steps)
+    print(f"{steps} steps polymer: {max(occurrences.values()) - min(occurrences.values())}")
