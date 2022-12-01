@@ -1,24 +1,14 @@
 with open('assets/day01.txt', 'r') as file:
-    depths = [int(line) for line in file.read().splitlines()]
+    calories = [line for line in file.read().splitlines()]
 
-increased = 0
-for i in range(1, len(depths)):
-    if depths[i] > depths[i - 1]:
-        increased += 1
+calories_per_elf = ' '.join(calories).split('  ')
 
-print("Depth increased: {:d} times.".format(increased))
+total_calories_per_elf = []
+for elf in calories_per_elf:
+    total_calories_per_elf.append(sum([int(calorie) for calorie in elf.split(' ')]))
 
-windows = []
-for i in range(0, len(depths) - 2):
-    window = 0
-    for j in range(0, 3):
-        window += depths[i + j]
+print(f'''Maximum total amount of calories: {max(total_calories_per_elf)}''')
 
-    windows.append(window)
+ordered_calories = sorted(total_calories_per_elf, reverse=True)
 
-increased = 0
-for i in range(1, len(windows)):
-    if windows[i] > windows[i - 1]:
-        increased += 1
-
-print("Depth windows increased: {:d} times.".format(increased))
+print(f'''Top 3 of calories: {sum(ordered_calories[0:3])}''')
