@@ -22,7 +22,7 @@ for match in matches:
 
     scores.append({'score': shapes[shape_b], 'points': calculate_points(weight_a, weight_b)})
 
-print(f'''Total score: {sum([sum(score.values()) for score in scores])}''')
+print(f'''Total score strategy I: {sum([sum(score.values()) for score in scores])}''')
 
 weights['person_b'] = ['Y', 'Z', 'X']
 
@@ -36,4 +36,4 @@ for match in matches:
 
     scores.append({'score': shapes[shape_b], 'points': calculate_points(weight_a, weight_b)})
 
-print(f'''Total score: {sum([sum(score.values()) for score in scores])}''')
+print(f'''Total score strategy II: {sum([sum(score.values()) for score in scores])}''')
