@@ -19,3 +19,11 @@ for assignments in assignment_collection:
         overlapping_assignments += 1
 
 print(f'''Number of overlapping assignments: {overlapping_assignments}''')
+
+intersecting_assignments = 0
+for assignments in assignment_collection:
+    elf_a, elf_b = assignments
+    if len(elf_a.intersection(elf_b)) > 0 or len(elf_b.intersection(elf_a)) > 0:
+        intersecting_assignments += 1
+        
+print(f'''Number of intersecting assignments: {intersecting_assignments}''')
