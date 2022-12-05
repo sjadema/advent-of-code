@@ -34,10 +34,10 @@ stacked_containers, queued_containers = copy.deepcopy(containers), copy.deepcopy
 for move in moves:
     amount, source, target = move.values()
 
-    stacked_containers[target] = stacked_containers[target] + stacked_containers[source][-amount:][::-1]
+    stacked_containers[target] += stacked_containers[source][-amount:][::-1]
     stacked_containers[source] = stacked_containers[source][0:len(stacked_containers[source]) - amount]
 
-    queued_containers[target] = queued_containers[target] + queued_containers[source][-amount:]
+    queued_containers[target] += queued_containers[source][-amount:]
     queued_containers[source] = queued_containers[source][0:len(queued_containers[source]) - amount]
 
 print(f'''Top containers with a stack: {''.join([column[-1] for column in stacked_containers])}''')
