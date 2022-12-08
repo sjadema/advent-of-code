@@ -1,4 +1,3 @@
-import copy
 from typing import Generator
 
 with open('assets/day07.txt', 'r') as file:
@@ -57,3 +56,10 @@ sizes = calculate_size(filesystem)
 
 at_most_100k = sum([size for size in sizes.values() if size <= 100000])
 print(f'''Total of directories which are at most 100000 in size: {at_most_100k}''')
+
+disk_size, size_required = 70000000, 30000000
+size_available = disk_size - sizes['/']
+lower_limit = size_required - size_available
+
+removal_candidates = [size for size in sizes.values() if size > lower_limit]
+print(f'''Size of directory to remove: {sorted(removal_candidates)[0]}''')
