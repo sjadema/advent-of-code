@@ -56,6 +56,9 @@ for y in range(rows):
             view_distance_bottom_hit |= (trees[upper_view][y] >= tree_bottom)
             view_distance_left_hit |= (trees[y][lower_view] >= tree_left)
 
+            if view_distance_top_hit & view_distance_right_hit & view_distance_bottom_hit & view_distance_left_hit:
+                break
+
         scenic_trees[lower][y] *= view_distance_top
         scenic_trees[y][upper] *= view_distance_right
         scenic_trees[upper][y] *= view_distance_bottom
