@@ -1,16 +1,8 @@
 with open('assets/day08.txt', 'r') as file:
-    lines = [line for line in file.read().splitlines()]
+    trees = [[int(tree) for tree in line] for line in file.read().splitlines()]
 
-rows, columns = len(lines), len(lines[0])
+rows, columns = len(trees), len(trees[0])
 visible_trees, scenic_trees = [[False] * columns for _ in range(rows)], [[1] * columns for _ in range(rows)]
-
-trees = []
-for y in range(rows):
-    row = []
-    for x in range(columns):
-        row.append(int(lines[y][x]))
-
-    trees.append(row)
 
 for i in range(4):
     # Rotate tree matrices 90 degrees clockwise
