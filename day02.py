@@ -39,3 +39,17 @@ for game in games:
         possible_games.append(game['number'])
 
 print(f'''Sum of possible games: {sum(possible_games)}''')
+
+minimal_cubes = []
+for game in games:
+    reds = []
+    blues = []
+    greens = []
+    for cubes in game['grabs']:
+        reds.append(cubes['red'])
+        blues.append(cubes['blue'])
+        greens.append(cubes['green'])
+
+    minimal_cubes.append(max(reds) * max(blues) * max(greens))
+
+print(f'''Sum of minimal number of cubes: {sum(minimal_cubes)}''')
