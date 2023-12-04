@@ -23,19 +23,19 @@ for y in range(0, len(lines)):
             symbols[(x, y)] = symbol
 
 
-def resolve_part_numbers() -> list[int]:
+def resolve_parts() -> list[int]:
     looked_at = []
-    part_numbers = []
+    resolved_parts = []
 
-    def resolve_coordinate(coordinate: tuple) -> None:
+    def resolve_part(coordinate: tuple) -> None:
         if coordinate not in numbers or coordinate in looked_at:
             return
 
         looked_at.append(coordinate)
         if type(numbers[coordinate]) is tuple:
-            resolve_coordinate(numbers[coordinate])
+            resolve_part(numbers[coordinate])
         else:
-            part_numbers.append(numbers[coordinate])
+            resolved_parts.append(numbers[coordinate])
 
     for symbol_coordinate in symbols.keys():
         symbol_x, symbol_y = symbol_coordinate
@@ -44,9 +44,46 @@ def resolve_part_numbers() -> list[int]:
 
         for y_coordinate in y_axis:
             for x_coordinate in x_axis:
-                resolve_coordinate((x_coordinate, y_coordinate))
+                resolve_part((x_coordinate, y_coordinate))
 
-    return part_numbers
+    return resolved_parts
 
 
-print(f'''Sum of part numbers: {sum(resolve_part_numbers())}''')
+print(f'''Sum of part numbers: {sum(resolve_parts())}''')
+
+
+def resolve_gear_ratios() -> list[int]:
+    looked_at = []
+    resolved_parts = []
+
+    def resolve_part(coordinate: tuple) -> None:
+        if coordinate not in numbers or coordinate in looked_at:
+            return
+
+        looked_at.append(coordinate)
+        if type(numbers[coordinate]) is tuple:
+            resolve_part(numbers[coordinate])
+        else:
+            resolved_parts.append(numbers[coordinate])
+
+    gear_ratios = []
+    gear_symbols = {k: v for k, v in symbols.items() if v == '*'}
+    for gear_symbol_coordinate in gear_symbols.keys():
+        symbol_x, symbol_y = gear_symbol_coordinate
+        x_axis = range(symbol_x - 1, symbol_x + 2)
+        y_axis = range(symbol_y - 1, symbol_y + 2)
+
+        resolved_parts = []
+        looked_at = []
+
+        for y_coordinate in y_axis:
+            for x_coordinate in x_axis:
+                resolve_part((x_coordinate, y_coordinate))
+
+        if len(resolved_parts) == 2:
+            gear_ratios.append(resolved_parts[0] * resolved_parts[1])
+
+    return gear_ratios
+
+
+print(f'''Sum of gear ratios: {sum(resolve_gear_ratios())}''')
