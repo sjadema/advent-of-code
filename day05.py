@@ -68,6 +68,8 @@ def get_seed(location: int, rule: tuple[int]) -> int:
     return location
 
 
+print(f'''Starting seed ranges ...''')
+
 min_location = 1
 found = False
 while not found:
@@ -85,9 +87,9 @@ while not found:
             break
 
     if min_location % 1000000 == 0:
-        print(f'Location done: {min_location}')
+        print(f'Location checked: {min_location}')
 
     min_location += 1
 
 print(f'''Minimum location: {min_location - 1}''')
-print(f'Done in {time.time() - start}')
+print(f'Done in {time.time() - start} seconds')
