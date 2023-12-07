@@ -6,18 +6,36 @@ with open('assets/day06.txt', 'r') as file:
 times = [int(time) for time in lines[0].split(':')[1].strip().split(' ') if time != '']
 distances = [int(distance) for distance in lines[1].split(':')[1].strip().split(' ') if distance != '']
 
-winning_distances = []
-for i in range(len(times)):
-    # We don't want a draw, so increase the minimum required distance
-    time, distance = times[i], distances[i] + 1
 
+def solve_equation(time: int, distance: int) -> tuple[int, int]:
     # The equation is in the form ax^2 + bx + c with a = -1, b = time & c = -distance
     # Solve both intersections for the required distance using the quadratic formula
     d = time ** 2 - 4 * -1 * -distance
     first = math.ceil((-time + math.sqrt(d)) / (-1 * 2))
     second = math.floor((-time - math.sqrt(d)) / (-1 * 2))
 
+    return first, second
+
+
+def get_number_of_winning_distances(solutions: tuple[int, int]) -> int:
     # Also include the first match
-    winning_distances.append(second - first + 1)
+    return solutions[1] - solutions[0] + 1
+
+
+winning_distances = []
+for i in range(len(times)):
+    # We don't want a draw, so increase the minimum required distance
+    time, distance = times[i], distances[i] + 1
+
+    solutions = solve_equation(time, distance)
+    winning_distances.append(get_number_of_winning_distances(solutions))
 
 print(f'Power of winning distances: {math.prod(winning_distances)}')
+
+time = int(''.join([str(time) for time in times]))
+distance = int(''.join([str(distance) for distance in distances]))
+
+# We don't want a draw, so increase the minimum required distance
+solutions = solve_equation(time, distance + 1)
+
+print(f'Number of ways to beat the race: {get_number_of_winning_distances(solutions)}')
