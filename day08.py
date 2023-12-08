@@ -9,7 +9,7 @@ direction_positions = ['L', 'R']
 nodes = {}
 for line in lines[2:]:
     name, value = line.split(' = ')
-    nodes[name] = tuple(re.findall(r'([A-Z]+)', value))
+    nodes[name] = tuple(re.findall(r'(\w+)', value))
 
 current_node = nodes['AAA']
 step = 0
