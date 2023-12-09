@@ -33,27 +33,27 @@ while i < len(lines):
 
 for rules in maps.values():
     rules.sort(key=lambda x: x[1])
-#
-#
-# def get_location(seed: int, rule: tuple[int]) -> int:
-#     if rule[1] <= seed < rule[1] + rule[2]:
-#         return seed + rule[0] - rule[1]
-#
-#     return seed
-#
-#
-# min_location = sys.maxsize
-# for seed in seeds:
-#     for rules in maps.values():
-#         for rule in rules:
-#             location = get_location(seed, rule)
-#             if location != seed:
-#                 seed = location
-#                 break
-#
-#     min_location = min(min_location, seed)
-#
-# print(f'''Minimum location: {min_location}''')
+
+
+def get_location(seed: int, rule: tuple[int]) -> int:
+    if rule[1] <= seed < rule[1] + rule[2]:
+        return seed + rule[0] - rule[1]
+
+    return seed
+
+
+min_location = sys.maxsize
+for seed in seeds:
+    for rules in maps.values():
+        for rule in rules:
+            location = get_location(seed, rule)
+            if location != seed:
+                seed = location
+                break
+
+    min_location = min(min_location, seed)
+
+print(f'''Minimum location: {min_location}''')
 
 seed_ranges = []
 for i in range(0, len(seeds), 2):
@@ -143,7 +143,6 @@ for i in range(1, len(all_ranges)):
 
 solved_ranges.sort(key=lambda x: x[0])
 minimum_locations = {solved_range[0] for solved_range in solved_ranges if solved_range[0] > 0}
-print(f'''Minimum location: {min(minimum_locations)}''')
 
-print(solved_ranges)
+print(f'''Minimum location: {min(minimum_locations)}''')
 print(f'Done in {time.time() - start} seconds')
