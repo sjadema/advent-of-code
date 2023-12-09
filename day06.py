@@ -9,10 +9,12 @@ distances = [int(distance) for distance in lines[1].split(':')[1].strip().split(
 
 def solve_equation(time: int, distance: int) -> tuple[int, int]:
     # The equation is in the form ax^2 + bx + c with a = -1, b = time & c = -distance
+    a, b, c = -1, time, -distance
+
     # Solve both intersections for the required distance using the quadratic formula
-    d = time ** 2 - 4 * -1 * -distance
-    first = math.ceil((-time + math.sqrt(d)) / (-1 * 2))
-    second = math.floor((-time - math.sqrt(d)) / (-1 * 2))
+    discriminant = b ** 2 - 4 * a * c
+    first = math.ceil((-b + math.sqrt(discriminant)) / (2 * a))
+    second = math.floor((-b - math.sqrt(discriminant)) / (2 * a))
 
     return first, second
 
