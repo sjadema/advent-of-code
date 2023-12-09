@@ -69,17 +69,13 @@ for i in range(1, len(all_ranges)):
     current_ranges = all_ranges[i]
 
     for solved_range in solved_ranges:
+        solved_dr_start, solved_dr_end = solved_range[0], solved_range[0] + solved_range[2]
+        solved_sr_start, solved_sr_end = solved_range[1], solved_range[1] + solved_range[2]
+        solved_r = solved_range[2]
+
         for current_range in current_ranges:
-            # Calculate destination ranges
-            solved_dr_start, solved_dr_end = solved_range[0], solved_range[0] + solved_range[2]
             current_dr_start, current_dr_end = current_range[0], current_range[0] + current_range[2]
-
-            # Calculate source ranges
-            solved_sr_start, solved_sr_end = solved_range[1], solved_range[1] + solved_range[2]
             current_sr_start, current_sr_end = current_range[1], current_range[1] + current_range[2]
-
-            # Get ranges
-            solved_r = solved_range[2]
             current_r = current_range[2]
 
             # Previous destination range fits inside current source range
@@ -139,52 +135,15 @@ for i in range(1, len(all_ranges)):
                 solving_ranges.append((inside_dr_start, inside_sr_start, inside_r))
                 solving_ranges.append((outside_dr_start, outside_sr_start, outside_r))
 
-            # Previous destination range is completely outside current source range
-            else:
-                solving_ranges.append((solved_dr_start, solved_sr_start, solved_r))
+        # No overlapping ranges found, add original range
+        if len(solving_ranges) == 0:
+            solving_ranges.append((solved_dr_start, solved_sr_start, solved_r))
 
     solved_ranges = list(set(solving_ranges))
 
 solved_ranges.sort(key=lambda x: x[0])
-print(solved_ranges)
+minimum_locations = {solved_range[0] for solved_range in solved_ranges if solved_range[0] > 0}
+print(f'''Minimum location: {min(minimum_locations)}''')
 
-# def map_range(range: tuple, step: int) ->
-#
-#
-# print(all_ranges)
-# exit()
-#
-#
-# def get_seed(location: int, rule: tuple[int]) -> int:
-#     seed = location + rule[1] - rule[0]
-#     if rule[1] <= seed < rule[1] + rule[2]:
-#         return seed
-#
-#     return location
-#
-#
-# print(f'''Starting seed ranges ...''')
-#
-# min_location = 1
-# found = False
-# while not found:
-#     location = min_location
-#     for rules in reversed(maps.values()):
-#         for rule in rules:
-#             seed = get_seed(location, rule)
-#             if seed != location:
-#                 location = seed
-#                 break
-#
-#     for seed_range in seed_ranges:
-#         if seed_range[0] <= location < seed_range[1]:
-#             found = True
-#             break
-#
-#     if min_location % 1000000 == 0:
-#         print(f'Location checked: {min_location}')
-#
-#     min_location += 1
-#
-# print(f'''Minimum location: {min_location - 1}''')
-# print(f'Done in {time.time() - start} seconds')
+print(solved_ranges)
+print(f'Done in {time.time() - start} seconds')
