@@ -1,29 +1,35 @@
 import re
+from collections import defaultdict
 
 with open('assets/day01.txt', 'r') as file:
     lines = [line for line in file.read().splitlines()]
 
-calibrations_values = []
+location_ids_first = []
+location_ids_second = []
 for line in lines:
-    value = re.sub(r'\D', '', line)
-    calibrations_values.append(int(value[0] + value[-1]))
+    value = re.match(r'(?P<first>\d+)\s+(?P<second>\d+)', line)
+    location_ids_first.append(int(value.group('first')))
+    location_ids_second.append(int(value.group('second')))
 
-print(f'''Sum of calibration values: {sum(calibrations_values)}''')
+location_ids_first.sort()
+location_ids_second.sort()
 
-numbers = [str(number) for number in range(1, 10)]
-letters = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-numbers_as_int = dict(zip(numbers, letters))
-numbers_as_str = dict(zip(letters, numbers))
+distance = 0
+for i in range(0, len(location_ids_first)):
+    first_location = location_ids_first[i]
+    second_location = location_ids_second[i]
 
-calibrations_values = []
-for line in lines:
-    prepared_line = line.translate(str.maketrans(numbers_as_int))
+    distance += max(first_location, second_location) - min(first_location, second_location)
 
-    capture_group = '|'.join(letters)
+print(f'Sum of all distances: {distance}')
 
-    first_number = re.search(f'''({capture_group})''', prepared_line).group()
-    last_number = re.search(f'''({capture_group[::-1]})''', prepared_line[::-1]).group()[::-1]
 
-    calibrations_values.append(int(numbers_as_str[first_number] + numbers_as_str[last_number]))
+occurrences = defaultdict(int)
+for location_id in location_ids_second:
+    occurrences[location_id] += 1
 
-print(f'''Sum of calibration values: {sum(calibrations_values)}''')
+distance = 0
+for location_id in location_ids_first:
+    distance += location_id * occurrences[location_id]
+
+print(f'Sum of all distances: {distance}')
